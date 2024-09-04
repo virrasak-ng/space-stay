@@ -8,21 +8,18 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export const Page = () => {
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  const [ready, setReady] = useState(false);
 
-  const router = useRouter();
-
-  const loginUser = async (event) => {
+  const registerUser = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,23 +27,20 @@ export const Page = () => {
         body: JSON.stringify({
           email,
           password,
+          fName,
+          lName,
         }),
       });
 
       const data = await response.json();
 
-      if (!data) {
-        console.log("Incorrect email or password");
-        return false;
+      if (response.ok) {
+        console.log("User created successfully:", data);
       } else {
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        setReady(true);
-        router.push("/");
-        return true;
+        console.error("Error creating user:", data.message);
       }
     } catch (error) {
-      console.error("error loggin in", error);
+      console.error("An error occurred:", error);
     }
   };
 
@@ -64,7 +58,7 @@ export const Page = () => {
       >
         <Card
           component={"form"}
-          onSubmit={loginUser}
+          onSubmit={registerUser}
           variant="outlined"
           sx={{
             marginTop: "100px",
@@ -95,17 +89,14 @@ export const Page = () => {
               <Box
                 component={"div"}
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
                   marginTop: "10px",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-around",
                 }}
               >
                 <TextField
-                  sx={{ width: "100%" }}
+                  sx={{ width: "40%" }}
                   //   id="outlined-basic"
                   label="Email"
                   variant="outlined"
@@ -114,7 +105,7 @@ export const Page = () => {
                   onChange={(e) => setEmail(e.target.value)} // onChange handler
                 />
                 <TextField
-                  sx={{ width: "100%" }}
+                  sx={{ width: "40%" }}
                   //   id="outlined-basic"
                   label="Password"
                   variant="outlined"
@@ -124,42 +115,50 @@ export const Page = () => {
                   onChange={(e) => setPassword(e.target.value)} // onChange handler
                 />
               </Box>
+
+              {/* first and last name */}
+              <Box
+                component={"div"}
+                sx={{
+                  marginTop: "30px",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-around",
+                }}
+              >
+                <TextField
+                  sx={{ width: "40%" }}
+                  //   id="outlined-basic"
+                  label="First Name"
+                  variant="outlined"
+                  placeholder="Enter first name"
+                  value={fName}
+                  onChange={(e) => setFName(e.target.value)} // onChange handler
+                />
+                <TextField
+                  sx={{ width: "40%" }}
+                  //   id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
+                  placeholder="Enter last name"
+                  value={lName}
+                  onChange={(e) => setLName(e.target.value)} // onChange handler
+                />
+              </Box>
             </Box>
           </CardContent>
           <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Box
+            <Button
+              type="submit" // Change onClick to type="submit"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "20px",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
+                border: 1,
+                width: "50%",
+                color: "white",
+                backgroundColor: "#9966CC",
               }}
             >
-              <Button
-                type="submit"
-                sx={{
-                  border: 1,
-                  width: "50%",
-                  color: "white",
-                  backgroundColor: "#9966CC",
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                type="submit"
-                sx={{
-                  border: 1,
-                  width: "50%",
-                  color: "white",
-                  backgroundColor: "#9966CC",
-                }}
-              >
-                Register
-              </Button>
-            </Box>
+              Register
+            </Button>
           </CardActions>
         </Card>
       </Box>

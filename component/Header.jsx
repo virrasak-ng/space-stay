@@ -10,8 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/navigation";
 
-export const Header = ({ location }) => {
-
+export const Header = ({ location, user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -29,8 +28,27 @@ export const Header = ({ location }) => {
     router.push("/auth");
   };
 
+  const handleNavigateRegister = () => {
+    router.push("/register");
+  };
+
   const handleNavigateHome = () => {
     router.push("/");
+  };
+
+  const logOutUser = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      localStorage.removeItem("user");
+
+      console.log("Log out successfully");
+      router.push("/");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -70,7 +88,7 @@ export const Header = ({ location }) => {
             StaySpace
           </Typography>
         </Box>
-        {location === "/auth" ? null : (
+        {location === "/auth" || location === "/register" ? null : (
           <Box
             component={"div"}
             sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -79,7 +97,7 @@ export const Header = ({ location }) => {
           </Box>
         )}
 
-        {location === "/auth" ? null : (
+        {location === "/auth" || location === "/register" ? null : (
           <Box component={"div"}>
             <IconButton
               id="basic-icon-button"
@@ -99,8 +117,9 @@ export const Header = ({ location }) => {
               onClose={handleClose}
               MenuListProps={{ "aria-labelledby": "basic-icon-button" }}
             >
-              <MenuItem onClick={handleNavigateLogin}>Login</MenuItem>
-              <MenuItem onClick={handleClose}>Sign-up</MenuItem>
+              <MenuItem onClick={handleNavigateLogin}>Log-In</MenuItem>
+              {user ? <MenuItem onClick={logOutUser}>Log-Out</MenuItem> : null}
+              <MenuItem onClick={handleNavigateRegister}>Sign-up</MenuItem>
             </Menu>
           </Box>
         )}

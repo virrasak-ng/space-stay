@@ -1,6 +1,7 @@
 import userModel from "../../model/Users";
 import { NextResponse } from "next/server";
-import dbConnect from "../../_utils/mongodb"; 
+import dbConnect from "../../_utils/mongodb";
+import * as bcrypt from "bcrypt";
 
 export async function POST(request) {
   await dbConnect();
@@ -9,15 +10,22 @@ export async function POST(request) {
 
   try {
     const exisitingUser = await userModel.findOne({ email });
-    console.log('exisitingUser', exisitingUser)
     if (exisitingUser) {
       return NextResponse.json(
         { message: "User already exists" },
         { status: 400 }
       );
     }
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new userModel({ fName, lName, email, password });
+    const newUser = new userModel({
+      fName,
+      lName,
+      email,
+      password: hashedPassword,
+    });
     await newUser.save();
 
     return NextResponse.json(
