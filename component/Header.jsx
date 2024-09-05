@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/navigation";
 
-export const Header = ({ location, user }) => {
+export const Header = ({ location, user, logOutUser }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -34,21 +34,6 @@ export const Header = ({ location, user }) => {
 
   const handleNavigateHome = () => {
     router.push("/");
-  };
-
-  const logOutUser = async () => {
-    try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-
-      localStorage.removeItem("user");
-
-      console.log("Log out successfully");
-      router.push("/");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
   };
 
   return (
@@ -107,8 +92,15 @@ export const Header = ({ location, user }) => {
               onClick={handleClick}
               sx={{ gap: "10px" }}
             >
-              <MenuIcon sx={{ fontSize: "25px", color: "#9966CC" }} />
+              {user ? null : (
+                <MenuIcon sx={{ fontSize: "25px", color: "#9966CC" }} />
+              )}
               <FaceIcon sx={{ fontSize: "40px", color: "#9966CC" }} />
+              {user ? (
+                <Typography sx={{ color: "#9966CC", fontWeight: "bold" }}>
+                  {user.firstName}
+                </Typography>
+              ) : null}
             </IconButton>
             <Menu
               id="basic-menu"
@@ -117,9 +109,17 @@ export const Header = ({ location, user }) => {
               onClose={handleClose}
               MenuListProps={{ "aria-labelledby": "basic-icon-button" }}
             >
-              <MenuItem onClick={handleNavigateLogin}>Log-In</MenuItem>
-              {user ? <MenuItem onClick={logOutUser}>Log-Out</MenuItem> : null}
-              <MenuItem onClick={handleNavigateRegister}>Sign-up</MenuItem>
+              {user ? (
+                <>
+                  <MenuItem onClick={handleNavigateLogin}>Settings</MenuItem>
+                  <MenuItem onClick={logOutUser}>Log-Out</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={handleNavigateLogin}>Log-In</MenuItem>
+                  <MenuItem onClick={handleNavigateRegister}>Sign-up</MenuItem>
+                </>
+              )}
             </Menu>
           </Box>
         )}

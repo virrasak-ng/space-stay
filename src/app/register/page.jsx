@@ -8,12 +8,14 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const Page = () => {
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const registerUser = async (event) => {
     event.preventDefault();
@@ -36,6 +38,7 @@ export const Page = () => {
 
       if (response.ok) {
         console.log("User created successfully:", data);
+        router.push("/auth");
       } else {
         console.error("Error creating user:", data.message);
       }

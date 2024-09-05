@@ -27,12 +27,12 @@ export async function GET(request) {
         email: email,
       };
 
-      return NextResponse.json({ user }, { status: 200 });
+      return NextResponse.json(user, { status: 200 });
     } catch (error) {
       console.log(error);
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
   } else {
-    return NextResponse.json({ user: null }, { status: 200 });
+    return NextResponse.json(null, { status: 200 });
   }
 }

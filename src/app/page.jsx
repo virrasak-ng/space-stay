@@ -15,8 +15,21 @@ export const Page = () => {
     fetchUser();
   }, []);
 
+  const logOutUser = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      localStorage.removeItem("user");
+      setUser(null);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   const location = usePathname();
-  return <Header location={location} user={user} />;
+  return <Header location={location} user={user} logOutUser={logOutUser} />;
 };
 
 export default Page;
