@@ -36,6 +36,10 @@ export const Header = ({ location, user, logOutUser }) => {
     router.push("/");
   };
 
+  const handleNavigateAccountSettings = () => {
+    router.push("/account-settings");
+  };
+
   return (
     <Stack
       component={"div"}
@@ -73,7 +77,7 @@ export const Header = ({ location, user, logOutUser }) => {
             StaySpace
           </Typography>
         </Box>
-        {location === "/auth" || location === "/register" ? null : (
+        {location === "/auth" || location === "/register" || location === "/account-settings" ? null : (
           <Box
             component={"div"}
             sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -82,7 +86,7 @@ export const Header = ({ location, user, logOutUser }) => {
           </Box>
         )}
 
-        {location === "/auth" || location === "/register" ? null : (
+        {location === "/auth" || location === "/register" || location === "/account-settings" ? null : (
           <Box component={"div"}>
             <IconButton
               id="basic-icon-button"
@@ -110,15 +114,17 @@ export const Header = ({ location, user, logOutUser }) => {
               MenuListProps={{ "aria-labelledby": "basic-icon-button" }}
             >
               {user ? (
-                <>
-                  <MenuItem onClick={handleNavigateLogin}>Settings</MenuItem>
+                <Box component={"div"}>
+                  <MenuItem onClick={handleNavigateAccountSettings}>
+                    Settings
+                  </MenuItem>
                   <MenuItem onClick={logOutUser}>Log-Out</MenuItem>
-                </>
+                </Box>
               ) : (
-                <>
+                <Box component={"div"}>
                   <MenuItem onClick={handleNavigateLogin}>Log-In</MenuItem>
                   <MenuItem onClick={handleNavigateRegister}>Sign-up</MenuItem>
-                </>
+                </Box>
               )}
             </Menu>
           </Box>
