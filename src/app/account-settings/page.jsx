@@ -18,7 +18,6 @@ export const Page = () => {
     fetchUser();
   }, []);
 
-  console.log("user", user);
   return (
     <Box component={"div"}>
       <Box>
@@ -44,7 +43,7 @@ export const Page = () => {
               component={"p"}
               sx={{ fontWeight: "bold", color: "#9966CC", fontSize: 20 }}
             >
-              {`Logged in as ${user.firstName}, ${user.email}`}
+              {`Logged in as ${user ? user.firstName : null}, ${user ? user.email : null}`}
             </Typography>
           </Box>
           <Box
