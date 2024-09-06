@@ -17,6 +17,10 @@ export const Page = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  const handleNavigateAuth = () => {
+    router.push("/auth");
+  };
+
   const registerUser = async (event) => {
     event.preventDefault();
 
@@ -87,7 +91,6 @@ export const Page = () => {
                 Login or Signup?
               </Typography>
             </Box>
-            {/* //email and password */}
             <Box padding={"40px"}>
               <Box
                 component={"div"}
@@ -100,26 +103,23 @@ export const Page = () => {
               >
                 <TextField
                   sx={{ width: "40%" }}
-                  //   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   placeholder="Enter email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)} // onChange handler
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                   sx={{ width: "40%" }}
-                  //   id="outlined-basic"
                   label="Password"
                   variant="outlined"
                   placeholder="Enter password"
                   value={password}
                   type="password"
-                  onChange={(e) => setPassword(e.target.value)} // onChange handler
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Box>
 
-              {/* first and last name */}
               <Box
                 component={"div"}
                 sx={{
@@ -131,37 +131,57 @@ export const Page = () => {
               >
                 <TextField
                   sx={{ width: "40%" }}
-                  //   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
                   placeholder="Enter first name"
                   value={fName}
-                  onChange={(e) => setFName(e.target.value)} // onChange handler
+                  onChange={(e) => setFName(e.target.value)}
                 />
                 <TextField
                   sx={{ width: "40%" }}
-                  //   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
                   placeholder="Enter last name"
                   value={lName}
-                  onChange={(e) => setLName(e.target.value)} // onChange handler
+                  onChange={(e) => setLName(e.target.value)}
                 />
               </Box>
             </Box>
           </CardContent>
           <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              type="submit" // Change onClick to type="submit"
+            <Box
               sx={{
-                border: 1,
-                width: "50%",
-                color: "white",
-                backgroundColor: "#9966CC",
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              Register
-            </Button>
+              <Button
+                type="submit"
+                sx={{
+                  border: 1,
+                  width: "50%",
+                  color: "white",
+                  backgroundColor: "#9966CC",
+                }}
+              >
+                Register
+              </Button>
+              <Button
+                onClick={handleNavigateAuth}
+                sx={{
+                  border: 1,
+                  width: "50%",
+                  color: "white",
+                  backgroundColor: "#9966CC",
+                }}
+              >
+                Back
+              </Button>
+            </Box>
           </CardActions>
         </Card>
       </Box>

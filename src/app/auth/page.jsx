@@ -18,6 +18,10 @@ export const Page = () => {
 
   const router = useRouter();
 
+  const handleNavigateRegister = () => {
+    router.push("/register");
+  };
+
   const loginUser = async (event) => {
     event.preventDefault();
 
@@ -90,7 +94,6 @@ export const Page = () => {
                 Login or Signup?
               </Typography>
             </Box>
-            {/* //email and password */}
             <Box padding={"40px"}>
               <Box
                 component={"div"}
@@ -106,22 +109,20 @@ export const Page = () => {
               >
                 <TextField
                   sx={{ width: "100%" }}
-                  //   id="outlined-basic"
                   label="Email"
                   variant="outlined"
                   placeholder="Enter email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)} // onChange handler
+                  onChange={(e) => setEmail(e.target.value)} 
                 />
                 <TextField
                   sx={{ width: "100%" }}
-                  //   id="outlined-basic"
                   label="Password"
                   variant="outlined"
                   placeholder="Enter password"
                   value={password}
                   type="password"
-                  onChange={(e) => setPassword(e.target.value)} // onChange handler
+                  onChange={(e) => setPassword(e.target.value)} 
                 />
               </Box>
             </Box>
@@ -149,7 +150,7 @@ export const Page = () => {
                 Login
               </Button>
               <Button
-                type="submit"
+                onClick={handleNavigateRegister}
                 sx={{
                   border: 1,
                   width: "50%",
