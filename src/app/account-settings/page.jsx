@@ -58,16 +58,19 @@ export const Page = () => {
               id={"personalInfo"}
               title={"Personal Info"}
               content={"Provide personal details and how we can reach you"}
+              navigateTo={"/personal-info"}
             />
             <AccountCardTabs
               id={"myBooking"}
               title={"My Bookings"}
               content={"Bookings made by you"}
+              navigateTo={"/my-booking"}
             />
             <AccountCardTabs
               id={"myAccomodation"}
               title={"My Accomodation"}
               content={"Home listing made by you"}
+              navigateTo={"/add-accomodation"}
             />
           </Box>
         </Stack>
